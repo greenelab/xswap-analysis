@@ -24,6 +24,5 @@ dependencies:
   - conda-forge::tqdm=4.24.0
   - pip:
     - git+https://github.com/hetio/hetmatpy@ca29be378c3815882c9d3bd470463f353f18bfee
-    - git+https://github.com/zietzm/xswap@c7cbec4309b900e3d958bd4df88c81225182d99b
-    # - git+https://github.com/greenelab/xswap@8f8d9bd34ab03790bfb2fc1689aff0d9df6fb4d3
+    - git+https://github.com/greenelab/xswap@59e6c0c13dcdf7f94ba798d4300cdf75903e96b0
     # - git+https://github.com/andreagobbi/pyBiRewire@d27e837d41abefd18352c1ee4dc7295e2487d5be
