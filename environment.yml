@@ -22,6 +22,7 @@ dependencies:
   - conda-forge::scipy=1.1.0
   - conda-forge::seaborn=0.9.0
   - conda-forge::tqdm=4.24.0
+  - conda-forge::xlrd=1.2.0
   - pip:
     - git+https://github.com/hetio/hetmatpy@ca29be378c3815882c9d3bd470463f353f18bfee
     - git+https://github.com/greenelab/xswap@59e6c0c13dcdf7f94ba798d4300cdf75903e96b0
