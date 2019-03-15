@@ -19,14 +19,14 @@ def normalize(matrix):
         normalized = scipy.sparse.csc_matrix(normalized)
     return normalized
 
-    
+
 def rwr(normalized_adjacency, start_index, restart_prob, convergence_threshold=1e-6):
     # p(t+1) = (1-r) * W @ p(t) + r * p(0)
     # Setup start position
     p_t = np.zeros((1, normalized_adjacency.shape[0]))
     p_t[0, start_index] = 1
     p_0 = p_t.copy()
-    
+
     # Iterate RWR until converge
     norm_difference = 1
     while norm_difference > convergence_threshold:
@@ -38,12 +38,24 @@ def rwr(normalized_adjacency, start_index, restart_prob, convergence_threshold=1
 
 def all_pairs_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
     normalized_adjacency = normalize(adjacency)
-    
+
     rwr_matrix = np.zeros(adjacency.shape)
-    
+
     num_nodes = adjacency.shape[0]
     for seed_index in range(num_nodes):
-        rwr_row = rwr(normalized_adjacency, seed_index, restart_prob, 
-            convergence_threshold=convergence_threshold)
+        rwr_row = rwr(normalized_adjacency, seed_index, restart_prob,
+                      convergence_threshold=convergence_threshold)
         rwr_matrix[seed_index, :] = rwr_row
     return rwr_matrix
+
+def full_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
+    starts = scipy.sparse.identity(adjacency.shape[0], dtype=float)
+    rwr = starts.copy()
+    starts *= restart_prob
+    norm_difference = 1
+    while norm_difference > convergence_threshold:
+        rwr_next = (1 - restart_prob) * rwr @ adjacency + starts
+        norm_difference = np.linalg.norm(np.abs(rwr_next - rwr), 1)
+        rwr = rwr_next
+    return rwr
+    
