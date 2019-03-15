@@ -2,22 +2,24 @@ import numpy as np
 import scipy.sparse
 
 
+def edges_to_matrix(edges):
+    n_nodes = max(map(max, edges)) + 1
+    edges = list(set(
+        list(map(tuple, map(sorted, edges)))
+        + list(map(tuple, map(reversed, map(sorted, edges))))
+    ))
+    sp_mat = scipy.sparse.coo_matrix(
+        (np.ones(len(edges)), zip(*edges)), shape=(n_nodes, n_nodes))
+    return sp_mat
+
+
 def normalize(matrix):
     # Normalize adjacency matrix
-    was_sparse = False
-    if scipy.sparse.issparse(matrix):
-        was_sparse = True
-        matrix = matrix.toarray()
-    row_sums = (
-        matrix
-        .sum(axis=1)
-        .reshape(matrix.shape[0], 1)
-    )
-    row_sums[row_sums == 0] = 1
-    normalized = np.divide(matrix, row_sums)
-    if was_sparse:
-        normalized = scipy.sparse.csc_matrix(normalized)
-    return normalized
+    rowsums = np.array(matrix.sum(axis=1)).flatten()
+    rowsums[rowsums == 0] = 1
+    norm_mat = scipy.sparse.diags(1 / rowsums, 0)
+    normed = norm_mat @ matrix
+    return normed
 
 
 def rwr(normalized_adjacency, start_index, restart_prob, convergence_threshold=1e-6):
@@ -48,14 +50,16 @@ def all_pairs_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
         rwr_matrix[seed_index, :] = rwr_row
     return rwr_matrix
 
+
 def full_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
-    starts = scipy.sparse.identity(adjacency.shape[0], dtype=float)
+    norm_adj = normalize(adjacency)
+    starts = scipy.sparse.identity(norm_adj.shape[0], dtype=float)
     rwr = starts.copy()
     starts *= restart_prob
     norm_difference = 1
     while norm_difference > convergence_threshold:
-        rwr_next = (1 - restart_prob) * rwr @ adjacency + starts
-        norm_difference = np.linalg.norm(np.abs(rwr_next - rwr), 1)
+        rwr_next = (1 - restart_prob) * rwr @ norm_adj + starts
+        rwr_diff = rwr_next - rwr
+        norm_difference = np.sqrt(rwr_diff.multiply(rwr_diff).sum())
         rwr = rwr_next
     return rwr
-    
