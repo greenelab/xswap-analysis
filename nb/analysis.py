@@ -1,5 +1,13 @@
 import numpy as np
 import scipy.sparse
+import xswap
+
+
+def auto_to_matrix(edges):
+    if isinstance(edges[0][0], str):
+        mapped, mapping, _ = xswap.preprocessing.map_str_edges(edges, False)
+        return edges_to_matrix(mapped)
+    return edges_to_matrix(edges)
 
 
 def edges_to_matrix(edges):
