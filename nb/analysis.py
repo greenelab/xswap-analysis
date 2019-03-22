@@ -59,15 +59,12 @@ def all_pairs_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
     return rwr_matrix
 
 
-def full_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
-    norm_adj = normalize(adjacency)
-    starts = scipy.sparse.identity(norm_adj.shape[0], dtype=float)
-    rwr = starts.copy()
-    starts *= restart_prob
-    norm_difference = 1
-    while norm_difference > convergence_threshold:
-        rwr_next = (1 - restart_prob) * rwr @ norm_adj + starts
-        rwr_diff = rwr_next - rwr
-        norm_difference = np.sqrt(rwr_diff.multiply(rwr_diff).sum())
-        rwr = rwr_next
+def invertible_rwr(adjacency, restart_prob):
+    w = normalize(adjacency)
+    q = np.identity(w.shape[0]) - restart_prob * w
+    try: 
+        rwr = (1 - restart_prob) * np.linalg.inv(q)
+    except np.linalg.LinAlgError:
+        # Use Moore-Penrose pseudoinverse if the matrix is not invertible
+        rwr = (1 - restart_prob) * np.linalg.pinv(q)
     return rwr
