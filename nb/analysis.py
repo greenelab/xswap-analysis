@@ -23,9 +23,9 @@ def edges_to_matrix(edges):
 
 def normalize(matrix):
     # Normalize adjacency matrix
-    rowsums = np.array(matrix.sum(axis=1)).flatten()
+    rowsums = np.array(matrix.sum(axis=1), dtype=np.float32).flatten()
     rowsums[rowsums == 0] = 1
-    norm_mat = scipy.sparse.diags(1 / rowsums, 0)
+    norm_mat = scipy.sparse.diags(1 / rowsums, 0, dtype=np.float32)
     normed = norm_mat @ matrix
     return normed
 
@@ -59,12 +59,29 @@ def all_pairs_rwr(adjacency, restart_prob, convergence_threshold=1e-6):
     return rwr_matrix
 
 
+def rwr_iter(adjacency, restart_prob, n_iter):
+    c = restart_prob
+    W = normalize(adjacency)
+    I = scipy.sparse.identity(W.shape[0], dtype=np.float32)
+    R = scipy.sparse.identity(W.shape[0], dtype=np.float32)
+    for i in range(n_iter):
+        R = c * W @ R + (1 - c) * I
+    return R
+
+
 def invertible_rwr(adjacency, restart_prob):
     w = normalize(adjacency)
-    q = np.identity(w.shape[0]) - restart_prob * w
-    try: 
-        rwr = (1 - restart_prob) * np.linalg.inv(q)
-    except np.linalg.LinAlgError:
-        # Use Moore-Penrose pseudoinverse if the matrix is not invertible
-        rwr = (1 - restart_prob) * np.linalg.pinv(q)
+    q = scipy.sparse.identity(w.shape[0]) - restart_prob * w
+    if scipy.sparse.issparse(q):
+        try: 
+            rwr = (1 - restart_prob) * scipy.sparse.linalg.inv(q.tocsc())
+        except np.linalg.LinAlgError:
+            # Use Moore-Penrose pseudoinverse if the matrix is not invertible
+            rwr = (1 - restart_prob) * scipy.linalg.pinv(q.tocsc()) 
+    else:
+        try: 
+            rwr = (1 - restart_prob) * np.linalg.inv(q)
+        except np.linalg.LinAlgError:
+            # Use Moore-Penrose pseudoinverse if the matrix is not invertible
+            rwr = (1 - restart_prob) * np.linalg.pinv(q)
     return rwr
