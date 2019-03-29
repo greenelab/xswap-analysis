@@ -25,9 +25,9 @@ def edges_to_matrix(edges, directed=False):
 
 def normalize(matrix):
     # Normalize adjacency matrix
-    rowsums = np.array(matrix.sum(axis=1), dtype=np.float32).flatten()
+    rowsums = np.array(matrix.sum(axis=1)).flatten()
     rowsums[rowsums == 0] = 1
-    norm_mat = scipy.sparse.diags(1 / rowsums, 0, dtype=np.float32)
+    norm_mat = scipy.sparse.diags(1 / rowsums, 0)
     normed = norm_mat @ matrix
     return normed
 
