@@ -1,14 +1,69 @@
+import itertools
+
 import numpy as np
+import pandas as pd
 import scipy.sparse
 import scipy.sparse.linalg
 import xswap
 
 
-def auto_to_matrix(edges):
-    if isinstance(edges[0][0], str):
-        mapped, mapping, _ = xswap.preprocessing.map_str_edges(edges, False)
-        return edges_to_matrix(mapped)
-    return edges_to_matrix(edges)
+def process_edges_to_full_network(edges_df, mapping, allow_loop=False, directed=False):
+    '''
+    Convert a DataFrame that contains only node pairs where an edge appears in one of 
+    the three networks (train, test_recon, test_new) to a DataFrame of all node pairs 
+    for nodes appearing in the test network.
+    
+    Parameters
+    ----------
+    edges_df : pandas.DataFrame
+        Columns should be ['name_a', 'name_b', 'id_a', 'id_b', 'train', 'test_recon', 'test_new'].
+        Contains only node pairs with at least one edge, ie. at minimum one of train, test_recon, 
+        test_new is 1.
+    mapping : dict
+        Mapping from name to id
+    allow_loop : bool
+        Whether to include self-loops as potential edges.
+    directed : bool
+        Whether edge (a, b) is equivalent to (b, a). If directed, then only source-target node pairs
+        will be in the returned DataFrame
+        
+    Returns
+    -------
+    pandas.DataFrame
+    '''
+    reversed_mapping = {v: k for k, v in mapping.items()}
+    train_df = edges_df.query('train == 1')
+    rel = '<=' if allow_loop else '<'
+    
+    if directed:
+        source_nodes = sorted(set(train_df['id_a']))
+        target_nodes = sorted(set(train_df['id_b']))
+        id_a, id_b = zip(*itertools.product(source_nodes, target_nodes))
+    else:
+        nodes = sorted(set(train_df[['id_a', 'id_b']].values.flatten()))
+        id_a, id_b = zip(*itertools.product(nodes, nodes))
+    
+    df = (
+        pd.DataFrame()
+        .assign(
+            id_a=id_a,
+            id_b=id_b,
+        )
+        .query(f'id_a {rel} id_b')
+        .merge(edges_df, how='left', on=['id_a', 'id_b'])
+        .assign(
+            name_a=lambda df: df['id_a'].map(reversed_mapping),
+            name_b=lambda df: df['id_b'].map(reversed_mapping),
+        )
+        .fillna(0)
+        .assign(
+            train=lambda df: df['train'].astype(int),
+            test_recon=lambda df: df['test_recon'].astype(int),
+            test_new=lambda df: df['test_new'].astype(int),
+        )
+        .filter(items=['name_a', 'name_b', 'id_a', 'id_b', 'train', 'test_recon', 'test_new'])
+    )
+    return df
 
 
 def edges_to_matrix(edges, directed=False):
