@@ -115,7 +115,7 @@ def invertible_rwr(adjacency, restart_prob):
     else:
         try:
             rwr = restart_prob * np.linalg.inv(q)
-        except np.linalg.LinAlgError:
+        except:
             # Use Moore-Penrose pseudoinverse if the matrix is not invertible
             rwr = restart_prob * np.linalg.pinv(q)
     return rwr
