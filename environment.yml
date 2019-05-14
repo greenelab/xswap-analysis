@@ -20,6 +20,7 @@ dependencies:
   - conda-forge::xlrd=1.2.0
   - conda-forge::r-gridextra=2.3
   - conda-forge::r-tidyverse=1.2.1
+  - conda-forge::r-hexbin=1.27.2
   - conda-forge::r-irkernel=0.8.15
   - conda-forge::r-shiny=1.2.0
   - conda-forge::r-ggextra=0.8
