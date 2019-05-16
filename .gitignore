@@ -4,4 +4,7 @@ database.ini
 data/1.raw/*
 data/4.data/*
 nb/fig2.feature_degree_corr/*.gz
+nb/fig2.feature_degree_corr/*.xz
 data/*.yml
+nb/fig4.roc/plot_info.tsv
+nb/fig6.percent_swapped/percent_swapped.csv
