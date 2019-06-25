@@ -18,17 +18,21 @@ dependencies:
   - conda-forge::seaborn=0.9.0
   - conda-forge::tqdm=4.31.1
   - conda-forge::xlrd=1.2.0
+  - conda-forge::r-caret=6.0_84
   - conda-forge::r-gridextra=2.3
   - conda-forge::r-tidyverse=1.2.1
   - conda-forge::r-hexbin=1.27.2
   - conda-forge::r-irkernel=0.8.15
   - conda-forge::r-ggextra=0.8
+  - conda-forge::r-ggforce=0.2.2
   - conda-forge::r-ggrepel=0.8.1
+  - conda-forge::r-mlmetrics=1.1.1
   - conda-forge::r-cowplot=0.9.4
   - conda-forge::r-plotroc=2.2.1
   - conda-forge::r-rocr=1.0_7
   - conda-forge::r-proc=1.15.0
   - pip:
     - git+https://github.com/hetio/hetmatpy@5ecb7cec827c54886e0ddd90c18fbb69ce9b8ce1
-    - git+https://github.com/greenelab/xswap@59e6c0c13dcdf7f94ba798d4300cdf75903e96b0
+    # - git+https://github.com/greenelab/xswap@59e6c0c13dcdf7f94ba798d4300cdf75903e96b0
+    - git+https://github.com/zietzm/xswap@da8c1b54d300d85f18842da6d86c5004fa389d06
     # - git+https://github.com/andreagobbi/pyBiRewire@d27e837d41abefd18352c1ee4dc7295e2487d5be
