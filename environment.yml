@@ -37,5 +37,5 @@ dependencies:
   - conda-forge::r-proc=1.15.0
   - pip:
     - git+https://github.com/hetio/hetmatpy@5ecb7cec827c54886e0ddd90c18fbb69ce9b8ce1
-    - git+https://github.com/hetio/xswap@6cd81207e7fb6df7ac6c905e943a56af81821663
+    - git+https://github.com/hetio/xswap@fd9da6c50f5ac670c3d755cd66e7996ca4ae1d25
     # - git+https://github.com/andreagobbi/pyBiRewire@d27e837d41abefd18352c1ee4dc7295e2487d5be
