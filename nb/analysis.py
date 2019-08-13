@@ -166,3 +166,21 @@ def directed_inference(matrix, out_degree, in_degree, n_source):
         if v != 0:
             ind[i] /= v
     return ded + ind
+
+
+def preferential_attachment_index(matrix):
+    pref = np.repeat(matrix.sum(axis=1), matrix.shape[1], axis=1) \
+        * np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    return np.array(pref)
+
+
+def resource_allocation_index(matrix):
+    target_degrees = np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    res = np.multiply(matrix.toarray(), 1 / target_degrees)@matrix.T
+    return np.array(res)
+
+
+def adamic_adar_index(matrix):
+    target_degrees = np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    ad = np.multiply(matrix.toarray(), 1 / np.log(target_degrees + 1))@matrix.T
+    return np.array(ad)
