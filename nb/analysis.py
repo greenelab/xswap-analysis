@@ -138,7 +138,7 @@ def rwr_approx_inv(adjacency, restart_prob, n_iter=20):
 
 
 def jaccard(adjacency, degree_matrix):
-    A2 = adjacency @ adjacency.T
+    A2 = adjacency.astype(int) @ adjacency.T.astype(int)
     denom = (degree_matrix - A2.toarray())
     denom[denom == 0] = 1
     return A2 / denom
