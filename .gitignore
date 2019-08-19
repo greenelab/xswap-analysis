@@ -1,8 +1,9 @@
+data/task3/1.raw/*
+data/task3/4.data/*
+
 **.ipynb_checkpoints
 **__pycache__
 data/task1
-data/task3/1.raw/*
-data/task3/4.data/*
 data/**.yml
 data/*.xz
 nb/fig6.percent_swapped/percent_swapped.csv
