@@ -28,6 +28,6 @@ dependencies:
   - conda-forge::r-plotroc=2.2.1
   - conda-forge::r-rocr=1.0_7
   - pip:
-    - xswap==0.0.2
     - git+https://github.com/hetio/hetmatpy@ca29be378c3815882c9d3bd470463f353f18bfee
+    - git+https://github.com/greenelab/xswap@59e6c0c13dcdf7f94ba798d4300cdf75903e96b0
     # - git+https://github.com/andreagobbi/pyBiRewire@d27e837d41abefd18352c1ee4dc7295e2487d5be
