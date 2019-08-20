@@ -3,9 +3,4 @@ data/task3/4.data/*
 
 **.ipynb_checkpoints
 __pycache__
-database.ini
-nb/fig2.feature_correlation/*.gz
-nb/fig2.feature_correlation/*.xz
-data/*.yml
-nb/fig4.roc/plot_info.tsv
 nb/fig6.percent_swapped/percent_swapped.csv
