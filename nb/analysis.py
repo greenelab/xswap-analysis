@@ -138,7 +138,7 @@ def rwr_approx_inv(adjacency, restart_prob, n_iter=20):
 
 
 def jaccard(adjacency, degree_matrix):
-    A2 = adjacency @ adjacency.T
+    A2 = adjacency.astype(int) @ adjacency.T.astype(int)
     denom = (degree_matrix - A2.toarray())
     denom[denom == 0] = 1
     return A2 / denom
@@ -166,3 +166,23 @@ def directed_inference(matrix, out_degree, in_degree, n_source):
         if v != 0:
             ind[i] /= v
     return ded + ind
+
+
+def preferential_attachment_index(matrix):
+    pref = np.multiply(
+        np.repeat(matrix.sum(axis=1), matrix.shape[1], axis=1),
+        np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    )
+    return np.array(pref)
+
+
+def resource_allocation_index(matrix):
+    target_degrees = np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    res = np.multiply(matrix.toarray(), 1 / target_degrees)@matrix.T
+    return np.array(res)
+
+
+def adamic_adar_index(matrix):
+    target_degrees = np.repeat(matrix.sum(axis=0), matrix.shape[0], axis=0)
+    ad = np.multiply(matrix.toarray(), 1 / np.log(target_degrees + 1))@matrix.T
+    return np.array(ad)
