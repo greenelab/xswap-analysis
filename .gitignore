@@ -1,5 +1,6 @@
 data/task3/1.raw/*
 data/task3/4.data/*
+data/feature-degree/ppi_feature_values.tsv
 
 **.ipynb_checkpoints
 __pycache__
