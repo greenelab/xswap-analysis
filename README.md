@@ -8,6 +8,22 @@ The results of these analyses are described in the manuscript titled:
 Along with the manuscript, this project produced an open-source implementation of our network permutation algorithm.
 Available on PyPI as [`xswap`](https://pypi.org/project/xswap/) and source on GitHub in [hetio/xswap](https://github.com/hetio/xswap/).
 
+## Layout
+
+The analyses for this repository are performed by sequentially numbered Jupyter notebooks in the [`nb`](nb) directory.
+Data is written to the [`data`](data) directory and figures are exported to the [`img`](img) directory.
+
+The analyses depend on the [Hetionet HetMat dataset](https://github.com/hetio/hetionet/tree/master/hetnet/matrix),
+which can be downloaded by running the following Python command from this repo's root directory:
+
+```py
+from hetmatpy.hetmat.archive import load_archive
+load_archive(
+    archive_path="https://github.com/hetio/hetionet/raw/b467b8b41087288390b41fdb796577ada9f03bda/hetnet/matrix/hetionet-v1.0.hetmat.zip",
+    destination_dir="data/task1/hetionet-v1.0.hetmat",
+)
+```
+
 ## Environment
 
 This repository uses [conda](http://conda.pydata.org/docs/) to manage its environment as specified in [`environment.yml`](environment.yml).
