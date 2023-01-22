@@ -7,3 +7,18 @@ The results of these analyses are described in the manuscript titled:
 
 Along with the manuscript, this project produced an open-source implementation of our network permutation algorithm.
 Available on PyPI as [`xswap`](https://pypi.org/project/xswap/) and source on GitHub in [hetio/xswap](https://github.com/hetio/xswap/).
+
+## Environment
+
+This repository uses [conda](http://conda.pydata.org/docs/) to manage its environment as specified in [`environment.yml`](environment.yml).
+Install the environment with:
+
+```sh
+# install new xswap-analysis environment
+conda env create --file=environment.yml
+
+# update existing xswap-analysis environment
+conda env update --file=environment.yml
+```
+
+Then use `conda activate xswap-analysis` and `conda deactivate` to activate or deactivate the environment.
