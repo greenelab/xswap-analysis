@@ -22,3 +22,13 @@ conda env update --file=environment.yml
 ```
 
 Then use `conda activate xswap-analysis` and `conda deactivate` to activate or deactivate the environment.
+
+## License
+
+The entire repository is released under a [BSD 3-Clause License](LICENSE).
+Furthermore:
+
+- the contents of the [`data`](data) directory are released under [CC0](https://creativecommons.org/publicdomain/zero/1.0/) (public domain dedication).
+- the contents of the [`img`](img) directory are released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (public domain dedication).
+  For images that are used in the [xswap-manuscript](https://github.com/greenelab/xswap-manuscript/),
+  please attribute this manuscript as the source.
