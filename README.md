@@ -35,6 +35,11 @@ conda env create --file=environment.yml
 
 # update existing xswap-analysis environment
 conda env update --file=environment.yml
+
+# export the locked environment specification, which lists every package
+# installed in the environment including implicit dependencies.
+# Includes build numbers and is operating system specific.
+conda env export --name=xswap-analysis > environment-lock-linux.yml
 ```
 
 Then use `conda activate xswap-analysis` and `conda deactivate` to activate or deactivate the environment.

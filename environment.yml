@@ -6,6 +6,7 @@ dependencies:
   - conda-forge::ipywidgets=7.4.2
   - conda-forge::matplotlib=3.0.3
   - conda-forge::nb_conda_kernels=2.2.1
+  - conda-forge::nbconvert=5.6.1
   - conda-forge::networkx=2.2
   - conda-forge::notebook=5.7.8
   - conda-forge::numpy=1.16.2
